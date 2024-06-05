@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="sendFile">
+      <input type="file" id="myFile" />
+      <button>submit</button>
+    </form>
+
+    <script>
+      const submit = document.getElementById("sendFile");
+
+      const sendFile = async () => {
+        const myFiles = document.getElementById("myFile").files;
+        const formData = new FormData();
+        Array.from(myFiles).forEach((file, index) => {
+          formData.append(`file`, file);
+        });
+        console.log(myFiles);
+        const response = await fetch("http://localhost:3000/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const json = await response.json();
+
+        console.log(json);
+      };
+
+      submit.addEventListener("submit", (e) => {
+        e.preventDefault();
+        sendFile();
+      });
+    </script>
+  </body>
+</html>
